@@ -60,38 +60,46 @@ src = "example_lib"
 [build.hooks.custom.options.files]
 aliases = {"example_lib._alias" = "example_lib.aliased"}
 exclude = [
-  {matches = "*/no_compile/*"},
-  {matches = "*_sample*"},
-  {matches = "*/windows", platforms = [
+  {matches = "**/no_compile/**"},
+  {matches = "**/*_sample*"},
+  {matches = "**/windows*", platforms = [
     "linux",
     "darwin",
     "freebsd"
   ]},
-  {matches = "*/darwin", platforms = [
+  {matches = "**/darwin*", platforms = [
     "linux",
     "freebsd",
     "windows"
   ]},
-  {matches = "*/linux", platforms = [
+  {matches = "**/linux*", platforms = [
     "darwin",
     "freebsd",
     "windows"
   ]},
-  {matches = "*/freebsd", platforms = [
+  {matches = "**/freebsd*", platforms = [
     "linux",
     "darwin",
     "windows"
   ]}
+]
+exclude_compiled_src = [
+  "src/example_lib/normal_exclude_compiled_src.py",
+  "src/example_lib/no_compile/",
+  "src/example_lib/normal_include_compiled_src.py",
+]
+include_compiled_src = [
+  "src/example_lib/normal_include_compiled_src.py"
 ]
 
 [build.hooks.custom.options.templates]
 global = {supported = ["int"]}
 index = [
   {keyword = "global", matches = "*"},
-  {keyword = "templated_mac", matches = "templated.*.in", platforms = [
+  {keyword = "templated_mac", matches = "**/templated.*.in", platforms = [
     "darwin"
   ]},
-  {keyword = "templated_win", matches = "templated.*.in", platforms = [
+  {keyword = "templated_win", matches = "**/templated.*.in", platforms = [
     "windows"
   ]}
 ]
