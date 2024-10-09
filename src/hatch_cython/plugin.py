@@ -246,9 +246,16 @@ class CythonBuildHook(BuildHookInterface):
                 else:
                     ok = False
                     self.app.display_warning(f"attempted to use .pxd file without .py file ({norm})")
+            # TODO: This is all kind of ugly. Be aware
             if self.is_src:
-                root = root.replace("src/", "")
-            root = self.normalize_aliased_filelike(root.replace("/", "."))
+                prefix = 'src/'
+                if root.startswith(prefix):
+                    root = root[len(prefix):]
+                prefix = f'src{os.path.sep}'
+                if root.startswith(prefix):
+                    root = root[len(prefix):]
+
+            root = self.normalize_aliased_filelike(root.replace("/", ".").replace(os.path.sep, "."))
             alias = self.options.files.matches_alias(root)
             self.app.display_debug(f"check alias {ok} {root} -> {norm} -> {alias}")
             if alias:
